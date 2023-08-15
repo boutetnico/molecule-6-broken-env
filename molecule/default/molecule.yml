@@ -1,0 +1,19 @@
+---
+dependency:
+  name: galaxy
+  enabled: false
+
+driver:
+  name: docker
+
+platforms:
+  - name: debian-12
+    image: debian:12
+
+provisioner:
+  name: ansible
+
+verifier:
+  name: testinfra
+  env:
+    TEST_VAR_FOO: BAR

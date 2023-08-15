@@ -1,0 +1,37 @@
+---
+name: Test ansible role
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        molecule:
+          - molecule<6
+          - molecule==6
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - name: Remove pre-installed ansible
+        run: sudo apt-get remove --purge -y ansible
+
+      - name: Install dependencies
+        run: pip install ansible ansible-lint docker ${{ matrix.distro }} molecule-plugins[docker] pytest-testinfra
+
+      - name: Display versions
+        run: |
+          python -c "import sys; print(sys.version)"
+          pip --version
+          ansible --version
+          molecule --version
+
+      - name: Run Molecule
+        run: molecule test --all
+        env:
+          PY_COLORS: "1"
