@@ -28,7 +28,7 @@ jobs:
         run: sudo apt-get remove --purge -y ansible
 
       - name: Install dependencies
-        run: pip install ansible ansible-lint docker ${{ matrix.molecule }} molecule-plugins[docker] pytest-testinfra
+        run: pip install ansible ansible-lint docker "${{ matrix.molecule }}" molecule-plugins[docker] pytest-testinfra
 
       - name: Display versions
         run: |
